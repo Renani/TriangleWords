@@ -1,5 +1,7 @@
 package com.renani.TriangleWords;
 
+import java.util.Optional;
+
 public class Word {
 	private final String value;
 	public static final int ASCII_OFFSET = 96;
@@ -25,21 +27,11 @@ public class Word {
 		return value.chars().reduce(0, (s, e) -> s + e - ASCII_OFFSET);
 	}
 
+ 
 	/**
-	 * [...]So an integer x is triangular if and only if 8x + 1 is a square
-	 * https://en.wikipedia.org/wiki/Triangular_number
-	 * 
+	 * if the Triangle number is an integer, then it is a triangleword.
 	 * @return
 	 */
-	public boolean isTriangleWord1() {
-		boolean isTriangle=false;
-		int candidate = wordValue * 8 + 1;
-		if ( Math.sqrt(candidate)%1==0) {
-			isTriangle=true;
-		}
-		return isTriangle;
-	}
-	
 	public boolean isTriangleWord() {
 		return this.calculateTriangleNumber()%1==0;
 	}
@@ -54,6 +46,21 @@ public class Word {
 	 */
 	private double calculateTriangleNumber() {
 		return (Math.sqrt(wordValue*8 +1)-1)/2;
+	}
+	
+	/**
+	 * The triangle number can be non-existent. 
+	 * We mark this by naming the method with "find" instead of "get" and return an optional.
+	 * We cannot assume the word will be tested for whether it is triangeword or not
+	 * 
+	 * @return
+	 */
+	public Optional<Integer> findTriangleNumber() {
+		if(isTriangleWord()) {
+			return Optional.of( (int) triangleNumber);
+		}else {
+			return Optional.ofNullable(null);
+		}
 	}
 
 }
